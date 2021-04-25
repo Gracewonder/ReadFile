@@ -2,19 +2,60 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <map>
+#include <vector>
+#include <string>
+
+using namespace std;
 
 int main()
-{
-    std::cout << "Hello World!\n";
+{   
+    map<string, vector<int>> numbers;
+    vector<int>temp;
+    pair<string, vector<int>> element;
+    ifstream file;
+    string line;
+    string Lastname;
+    int num;
+    int pos;
+    file.open("Text.txt");
+    if (file.is_open()) 
+    {
+        cout << "ok" << endl;
+    }
+    else {
+        cout << "file is not found" << endl;
+    }
+    while (!file.eof())
+    {
+        getline(file, line);
+        pos = line.find("-");
+        Lastname = line.substr(0, pos);
+        element.first = Lastname;
+
+        
+        do {
+            line = line.substr(pos + 1);
+            pos = line.find(",");
+            num = stoi(line.substr(0, pos));
+            temp.push_back(num);
+            
+        } while (line != ";");
+
+        element.second = temp;
+        numbers.insert(element);
+    }
+
+    file.close();
+
+    for (auto elem : numbers)
+    {
+        cout << elem.first << endl;
+        for (auto item : elem.second)
+        {
+            cout << item << "\t";
+        }
+        cout << endl;
+    }
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
